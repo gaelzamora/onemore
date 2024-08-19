@@ -35,3 +35,7 @@ type User struct {
 	UserDateUpd string `json:"userDateUpd"`
 }
 
+type Muscle struct {
+	Id_Muscle int `json:"ID_Muscle"`
+	Name_Muscle string `json:"nameMuscle"`
+}

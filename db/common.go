@@ -77,3 +77,39 @@ func UserExists(UserUUID string) (error, bool) {
 
 	return nil, false
 }
+
+func IsAdmin(userUUID string) (bool, string) {
+	fmt.Println("Comienza IsAdmin")
+
+	err := DBConnect()
+
+	if err != nil {
+		return false, err.Error()
+	}
+
+	defer Db.Close()
+
+	sentence := "SELECT 1 FROM User WHERE Id_User='" +userUUID+ "' AND User_Status = 0"
+	fmt.Println(sentence)
+
+	rows, err := Db.Query(sentence)
+
+	if err != nil {
+		return false, err.Error()
+	}
+
+	var value string
+	rows.Next()
+	rows.Scan(&value)
+
+	fmt.Println("UserIsAdmin > Succesful - Return value " + value)
+	if value == "1" {
+		return true, ""
+	}
+
+	if value == "0" {
+		return false, "No es admin"
+	}
+
+	return false, "User is not Admin"
+}
